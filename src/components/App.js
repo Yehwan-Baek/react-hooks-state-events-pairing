@@ -1,4 +1,7 @@
 import React, {useState} from "react";
+import CommentList from "./CommentsList.js";
+import VideoDetails from "./VideoDetails.js";
+
 import videoData from "../data/video.js";
 
 function App() {
@@ -33,24 +36,7 @@ function App() {
     })
   }
 
-  const commentList = showComments ? (
-    <div className="comments">
-      <button onClick={handleToggleComments}>Hide comments</button>
-      <h3>Comments</h3>
-      {video.comments.map((comment) => (
-        <div key={comment.id}>
-          <h3>{comment.user}</h3>
-          <p>{comment.comment}</p>
-          <button onClick={()=>handleRemoveComment(comment.id)}>
-            Remove Comment
-          </button>
-        </div>
-      ))}
-      <button onClick={handleSortComments}>Sort by Username</button>
-    </div>
-  ) : (
-    <button onClick={handleToggleComments}>Show Comments</button>
-  )
+  
 
   return (
     <div className="App">
@@ -62,14 +48,18 @@ function App() {
         allowFullScreen
         title={video.title}
       />
-
-      <div className="video-details">
-        <h2>{video.title}</h2>
-        <p>{video.views} views | Uploaded {video.createdAt}</p>
-        <button onClick={handleUpvotes}>{video.upvotes}👍</button>
-        <button onClick={handleDownvotes}>{video.downvotes}👎</button>
-      </div>
-      {commentList}
+      <VideoDetails 
+        video={video}
+        handleUpvotes={handleUpvotes}
+        handleDownvotes={handleDownvotes}
+      />
+      <CommentList 
+        video={video}
+        showComments={showComments}
+        handleToggleComments={handleToggleComments}
+        handleRemoveComment={handleRemoveComment}
+        handleSortComments={handleSortComments}
+      />
     </div>
   );
 }
